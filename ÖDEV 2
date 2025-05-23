@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define FILE_NAME "products.dat"
+#define FILE_NAME "outputs.dat"
 
 typedef struct {
     int id;
@@ -35,7 +35,7 @@ void showMenu() {
         printf("4 - Delete Product\n");
         printf("5 - Exit\n");
 
-        printf("Enter your choice: ");
+        printf("seciminizi girin: ");
         scanf("%d", &choice);
 
         switch (choice) {
@@ -55,7 +55,7 @@ void showMenu() {
                 printf("Exiting...\n");
                 exit(0);
             default:
-                printf("Invalid selection. Please try again.\n");
+                printf("gecersiz secim. tekrar deneyin.\n");
         }
     }
 }
@@ -63,25 +63,25 @@ void showMenu() {
 void addProduct() {
     FILE *file = fopen(FILE_NAME, "ab");
     if (!file) {
-        printf("Failed to open file!");
+        printf(o"Dosya açılamadı!");
         return;
     }
 
     Product p;
 
-    printf("Enter product ID: ");
+    printf("ürün ID girin: ");
     scanf("%d", &p.id);
-    printf("Enter product name: ");
+    printf("ürün adi girin: ");
     scanf("%s", p.name);
-    printf("Enter product price: ");
+    printf("ürün fiyati girin: ");
     scanf("%f", &p.price);
-    printf("Enter product stock: ");
+    printf("ürün stok adedini: ");
     scanf("%d", &p.stock);
 
     if (fwrite(&p, sizeof(Product), 1, file) == 1) {
-        printf("Product added successfully!\n");
+        printf("Ürün eklendi!\n");
     } else {
-        printf("Error occurred while adding the product.\n");
+        printf("Ürün eklenirken hata oluştu.\n");
     }
 
     fclose(file);
@@ -90,29 +90,29 @@ void addProduct() {
 void updateProduct() {
     FILE *file = fopen(FILE_NAME, "rb+");
     if (!file) {
-        printf("Failed to open file!");
+        printf("Dosya açılamadı!");
         return;
     }
 
     Product p;
     int id, found = 0;
 
-    printf("Enter product ID to update: ");
+    printf("güncellemek için ürün ID girin: ");
     scanf("%d", &id);
 
     while (fread(&p, sizeof(Product), 1, file)) {
         if (p.id == id) {
             found = 1;
 
-            printf("Enter new stock value: ");
+            printf("yeni stok degerini girin: ");
             scanf("%d", &p.stock);
 
             fseek(file, -sizeof(Product), SEEK_CUR);
 
             if (fwrite(&p, sizeof(Product), 1, file) == 1) {
-                printf("Product stock updated successfully!\n");
+                printf("ürün stogu güncellendi!\n");
             } else {
-                printf("Error while updating the product.\n");
+                printf("ürün güncellenirken hata olustu.\n");
             }
 
             break;
@@ -120,7 +120,7 @@ void updateProduct() {
     }
 
     if (!found) {
-        printf("Product not found.\n");
+        printf("urun bulunamadı.\n");
     }
 
     fclose(file);
@@ -129,14 +129,14 @@ void updateProduct() {
 void getProducts() {
     FILE *file = fopen(FILE_NAME, "rb");
     if (!file) {
-        printf("Failed to open file!");
+        printf("Dosya açilamadi!");
         return;
     }
 
     Product p;
     int id, found = 0;
 
-    printf("Enter product ID to search (0 for all): ");
+    printf("aramak için urun kimligini girin: ");
     scanf("%d", &id);
 
     if (id == 0) {
@@ -155,7 +155,7 @@ void getProducts() {
     }
 
     if (!found) {
-        printf("Product not found.\n");
+        printf("ürün bulunamadi\n");
     }
 
     fclose(file);
@@ -174,8 +174,7 @@ void deleteProduct() {
 
     Product p;
     int id, found = 0;
-
-    printf("Enter product ID to delete: ");
+    printf("silinecek urun ID girin: ");
     scanf("%d", &id);
 
     while (fread(&p, sizeof(Product), 1, file)) {
@@ -193,9 +192,9 @@ void deleteProduct() {
     if (found) {
         remove(FILE_NAME);
         rename("temp.dat", FILE_NAME);
-        printf("Product deleted successfully.\n");
+        printf("ürün silindi.\n");
     } else {
         remove("temp.dat");
-        printf("Product not found.\n");
+        printf("ürün bulunamadi.\n");
     }
 }
