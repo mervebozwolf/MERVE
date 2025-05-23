@@ -1,5 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<stdlib.h>
 
 #define FILE_NAME "outputs.dat"
 
@@ -29,11 +29,11 @@ void showMenu() {
     int choice;
     while (1) {
         printf("\n--- Menu ---\n");
-        printf("1 - Add Product\n");
-        printf("2 - Update Product Stock\n");
-        printf("3 - List Products\n");
-        printf("4 - Delete Product\n");
-        printf("5 - Exit\n");
+        printf("1 - urun ekle\n");
+        printf("2 - urun stogunu güncelle\n");
+        printf("3 - urunleri listele\n");
+        printf("4 - urun sil\n");
+        printf("5 - cikis\n");
 
         printf("seciminizi girin: ");
         scanf("%d", &choice);
@@ -63,7 +63,7 @@ void showMenu() {
 void addProduct() {
     FILE *file = fopen(FILE_NAME, "ab");
     if (!file) {
-        printf(o"Dosya açılamadı!");
+        printf("Dosya açılamadı!");
         return;
     }
 
